@@ -1,4 +1,5 @@
 import unittest
+from Game import Game
 
 
 class View_TestCase(unittest.TestCase):
@@ -8,7 +9,8 @@ class View_TestCase(unittest.TestCase):
     def test_main_method_exists(self):
         from View import View
         view = View()
-        view.main()
+        rCode = view.main()
+        self.assertEqual(rCode, Game.QUIT_GAME, "Bad return code from Game.run()")
 
 
 
