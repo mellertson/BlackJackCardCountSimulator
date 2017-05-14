@@ -1,3 +1,4 @@
 
 class View:
-    pass
+    def main(self):
+        pass
