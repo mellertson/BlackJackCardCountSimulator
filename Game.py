@@ -1,7 +1,7 @@
 import ConfigFileManager as cfm
 
 class UserPrompts:
-    enterBet = "Ente"
+    enterBet = "Enter"
 
 class Game(object):
     NEW_GAME = 1
