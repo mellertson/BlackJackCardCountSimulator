@@ -6,7 +6,7 @@ class View_TestCase(unittest.TestCase):
     def test_view_class_exists(self):
         from View import View
 
-    def test_main_method_exists(self):
+    def test_main_method(self):
         from View import View
         view = View()
         rCode = view.main()
