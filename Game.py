@@ -1,4 +1,4 @@
-import ConfigFileManager as cfm
+import csv
 
 class Game(object):
     NEW_GAME = 1
@@ -20,6 +20,7 @@ class Game(object):
         gameNumber: How many blackjack simulations were run. Used in making the
             file name
     """
+
     def __init__(self, gameNumber):
         """
         Constructor
@@ -35,8 +36,18 @@ class Game(object):
         self.losses = 0
         self.ties = 0
         self.gameNumber = gameNumber
+
     def run(self):
         return self.QUIT_GAME
+
+    def printRoundSum(self):
+        """Print a summary of the current hands."""
+        pass
+
+    def saveRoundSum(self):
+        """Save the hand to a CSV file."""
+        pass
+        
 
 
 
