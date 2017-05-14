@@ -1,3 +1,5 @@
+import ConfigFileManager as cfm
+
 class Game(object):
     # Test
     __init__(self, gameNumber):
@@ -8,3 +10,8 @@ class Game(object):
         self.decks = 6
         self.wins = 0
         self.losses = 0
+        
+        cfm
+        
+    
+
