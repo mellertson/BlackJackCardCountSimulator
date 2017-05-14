@@ -1,6 +1,8 @@
 import ConfigFileManager as cfm
 
 class Game(object):
+    NEW_GAME = 1
+    QUIT_GAME = 0
     """Construct a new <code>Game</code> object.
     
     Attributes:
@@ -19,15 +21,23 @@ class Game(object):
             file name
     """
     def __init__(self, gameNumber):
+        """
+        Constructor
+        :param gameNumber:
+        :type gameNumber: int
+        """
         self.count = 0
         self.trueCount = 0
-        self.betAmmount = 2.0
+        self.betAmount = 2.0
         self.bankRoll = 500.0
         self.decks = 6
         self.wins = 0
         self.losses = 0
         self.ties = 0
         self.gameNumber = gameNumber
+    def run(self):
+        return self.QUIT_GAME
+
 
 
 
