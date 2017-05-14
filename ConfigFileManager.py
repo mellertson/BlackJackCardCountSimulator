@@ -2,8 +2,6 @@ import pandas as pd
 
 class ConfigFileManager:
     configFileName = 'blackjack.conf'
-    def __init(self):
-        pass
     def _readConfigFile(self):
         """
         Reads the config file and returns the config data as a pandas.DataFrame
