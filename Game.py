@@ -1,5 +1,8 @@
 import ConfigFileManager as cfm
 
+class UserPrompts:
+    enterBet = "Ente"
+
 class Game(object):
     NEW_GAME = 1
     QUIT_GAME = 0
@@ -35,7 +38,25 @@ class Game(object):
         self.losses = 0
         self.ties = 0
         self.gameNumber = gameNumber
+    def promptBet(self):
+        floatReceived = False
+        prompt = "What is your bet? [Enter for ${}]: $".format(self.betAmount)
+        while not floatReceived:
+            response = input(prompt)
+            if response.strip(' ') == '':
+                return self.betAmount
+            try:
+                response = float(response)
+                return response
+            except ValueError:
+                floatReceived = False
+
+        return self.betAmount
+    def printRoundSummary(self):
+        print("True Count\tBet\tBank Roll\tDecks")
     def run(self):
+        self.printRoundSummary()
+
         return self.QUIT_GAME
 
 
