@@ -41,7 +41,7 @@ class Game(object):
                      'winOrLoss': ['self.winOrLossPrompt', 'str']}
 
         # set to True to enable debug messages
-        self.debug = True
+        self.debug = False
 
     """
     Properties to prompt, get and set self.decks
@@ -55,7 +55,10 @@ class Game(object):
         return self._decks
     @decks.setter
     def decks(self, value):
-        self._decks = int(value)
+        try:
+            self._decks = int(float(value))
+        except Exception:
+            pass
 
     """
     Properties to prompt, get and set self.count
@@ -69,7 +72,10 @@ class Game(object):
         return self._count
     @count.setter
     def count(self, value):
-        self._count = int(value)
+        try:
+            self._count = int(float(value))
+        except Exception:
+            pass
 
     """
     Properties to prompt, get and set self.count
@@ -83,7 +89,10 @@ class Game(object):
         return self._betAmount
     @betAmount.setter
     def betAmount(self, value):
-        self._betAmount = float(value)
+        try:
+            self._betAmount = float(value)
+        except Exception:
+            pass
 
     """
     Properties to prompt, get and set self.decks
@@ -97,7 +106,7 @@ class Game(object):
         return self._winOrLoss.upper()
     @winOrLoss.setter
     def winOrLoss(self, value):
-        self._winOrLoss = str(value.upper())
+        self._winOrLoss = str(value.upper())[0]
 
     """
     Methods to output round data to screen and the CSV file"""
@@ -121,8 +130,10 @@ class Game(object):
         response = input(prompt)
         if response.upper() == 'Q':
             return self.QUIT_GAME
+        elif varName == 'winOrLoss' and response not in ['W','L']:
+            self.storeUserInput(varName)
         else:
-            setattr(self, '_'+varName, response)
+            setattr(self, varName, response)
         if self.debug:
             print("{} = {}".format(varName, getattr(self, varName)))
         return self.INPUT_RECEIVED
@@ -159,3 +170,22 @@ class Game(object):
             print("{}\t{}\t${}\t${}\t{}".format(self.trueCount, self.count, self.betAmount, self.bankRoll, self.decks))
             self.printRoundSummary()
             self.saveRoundSummary()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
