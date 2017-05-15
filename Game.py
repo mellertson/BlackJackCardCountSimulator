@@ -38,7 +38,7 @@ class Game(object):
 
     def printRoundSummary(self):
         """Print a summary of the current hands."""
-        pass
+       print() 
 
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
