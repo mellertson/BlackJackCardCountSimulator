@@ -1,3 +1,5 @@
+import csv
+
 class UserPrompts:
     enterBet = "Enter"
 
@@ -36,6 +38,16 @@ class Game(object):
         self.ties = 0
         self.gameNumber = gameNumber
         self.totalRounds = self.wins + self.losses + self.ties
+        self.fileTitle = 'bj-' + str(gameNumber) + '.csv'
+        
+        with open(self.fileTitle, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ', quotechar='|',
+                               quoting=csv.QUOTE_MINIMAL)
+            writer.writerow(['True Count','Count','Bet Amount', 
+                             'Bank Roll','Decks','Win Percentage',
+                             'Loss Percentage','Tie Percentage'])
+            # Write a blank line... I think
+            writer.writerow(['','','','','','','',''])
 
     def promptBet(self):
         floatReceived = False
@@ -80,8 +92,7 @@ class Game(object):
 
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
-        pass
-
+        
 
 
 
