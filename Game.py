@@ -38,7 +38,7 @@ class Game(object):
         self.ties = 0
         self.gameNumber = gameNumber
         self.totalRounds = self.wins + self.losses + self.ties
-        self.fileTitle = 'bj-' + str(gameNumber) + '.csv'
+        self.fileTitle = 'game-' + str(gameNumber) + '.csv'
         
         with open(self.fileTitle, 'w', newline='') as csvfile:
             writer = csv.writer(csvfile)
