@@ -19,4 +19,4 @@ class View:
             game = Game(cf.gameNumber)
             rCode = game.run()
 
-        return rCode
+        return Game.QUIT_GAME

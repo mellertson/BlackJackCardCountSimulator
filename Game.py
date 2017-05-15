@@ -2,7 +2,7 @@ import csv
 
 class Game(object):
     NEW_GAME = -1
-    QUIT_GAME = -2
+    QUIT_GAME = 0
     INPUT_RECEIVED = -3
 
     """Construct a new <code>Game</code> object.
@@ -50,7 +50,8 @@ class Game(object):
                              'Loss Percentage','Tie Percentage'])
             # Write a blank line... I think
             writer.writerow(['','','','','','','',''])
-            print('The file has been made!')
+            if self.debug:
+                print('The file has been made!')
 
     """
     Properties to prompt, get and set self.decks
@@ -109,23 +110,26 @@ class Game(object):
     @property
     def winOrLossPrompt(self):
         """String used to prompt user for win or loss"""
-        return "Was it a win or loss? [W or L]: "
+        return "Was it a win, loss, or push? [W, L, or P]: "
     @property
     def winOrLoss(self):
         return self._winOrLoss.upper()
     @winOrLoss.setter
     def winOrLoss(self, value):
         self._winOrLoss = str(value.upper())[0]
+        if self._winOrLoss == 'W':
+            self.wins += 1
+        elif self._winOrLoss == 'L':
+            self.losses += 1
+        elif self._winOrLoss == 'P':
+            self.ties += 1
 
     """
     Methods to output round data to screen and the CSV file"""
     def printRoundHeaders(self):
-        print("True Count\tBet\tBank Roll\tDecks")
-
+        print('True Count\tCount\tBet Amount\tBank Roll\tDecks\tWin Percentage\tLoss Percentage\tTie Percentage')
     def getPercentage(self, int):
         return float(int / (self.wins + self.losses + self.ties))
-
-
     def printRoundSummary(self):
         """Print a summary of the current hands."""
         summary = ('True Count: {} | Count: {} | Bet: ${:,.2f} | Bank Roll: '
@@ -139,7 +143,6 @@ class Game(object):
         title = '{:*^150}'.format('Current Round Summary')
         print(title)
         print(summary)
-
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
         with open(self.fileTitle, 'a', newline='') as csvfile:
@@ -161,7 +164,7 @@ class Game(object):
         response = input(prompt)
         if response.upper() == 'Q':
             return self.QUIT_GAME
-        elif varName == 'winOrLoss' and response not in ['W','L']:
+        elif varName == 'winOrLoss' and response not in ['W','L','P']:
             self.storeUserInput(varName)
         else:
             setattr(self, varName, response)
@@ -170,7 +173,7 @@ class Game(object):
         return self.INPUT_RECEIVED
     def run(self):
         # print headers for true count, count, bet, bank roll, and # of decks
-        self.printRoundHeaders()
+        # self.printRoundHeaders()
 
         while True:
             # ask user for # of decks or quit command (Q)
@@ -197,8 +200,7 @@ class Game(object):
                 # subtract bet amount from bank roll
                 self.bankRoll -= self.betAmount
 
-            # @ end of round, print the round summary
-            print("{}\t{}\t${}\t${}\t{}".format(self.trueCount, self.count, self.betAmount, self.bankRoll, self.decks))
+            # @ end of round, print the round summary and write round summary to the CSV file
             self.printRoundSummary()
             self.saveRoundSummary()
 
