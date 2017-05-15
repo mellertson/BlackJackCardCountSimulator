@@ -26,20 +26,26 @@ class Game(object):
         """Constructor"""
         self._count = 0
         self.trueCount = 0
-        self.betAmount = 2.0
+        self._betAmount = 2.0
         self.bankRoll = 500.0
         self._decks = 6
         self.wins = 0
         self.losses = 0
         self.ties = 0
+        self._winOrLoss = 'W or L'
         self.gameNumber = gameNumber
 
         self.vars = {'decks': ['self.decksPrompt', 'int'],
-                     'count': ['self.countPrompt', 'int']}
+                     'count': ['self.countPrompt', 'int'],
+                     'betAmount': ['self.betAmountPrompt', 'float'],
+                     'winOrLoss': ['self.winOrLossPrompt', 'str']}
 
         # set to True to enable debug messages
         self.debug = True
-    # decks prompt, getter and setter
+
+    """
+    Properties to prompt, get and set self.decks
+    """
     @property
     def decksPrompt(self):
         """String used to prompt user for # of decks"""
@@ -49,8 +55,11 @@ class Game(object):
         return self._decks
     @decks.setter
     def decks(self, value):
-        self._decks = value
-    # count promprt, getter and setter
+        self._decks = int(value)
+
+    """
+    Properties to prompt, get and set self.count
+    """
     @property
     def countPrompt(self):
         """String used to prompt user for card count"""
@@ -60,7 +69,38 @@ class Game(object):
         return self._count
     @count.setter
     def count(self, value):
-        self._count = value
+        self._count = int(value)
+
+    """
+    Properties to prompt, get and set self.count
+    """
+    @property
+    def betAmountPrompt(self):
+        """String used to prompt user for bet amount"""
+        return "Enter your bet [{}]: ".format(self.betAmount)
+    @property
+    def betAmount(self):
+        return self._betAmount
+    @betAmount.setter
+    def betAmount(self, value):
+        self._betAmount = float(value)
+
+    """
+    Properties to prompt, get and set self.decks
+    """
+    @property
+    def winOrLossPrompt(self):
+        """String used to prompt user for win or loss"""
+        return "Was it a win or loss? [W or L]: "
+    @property
+    def winOrLoss(self):
+        return self._winOrLoss.upper()
+    @winOrLoss.setter
+    def winOrLoss(self, value):
+        self._winOrLoss = str(value.upper())
+
+    """
+    Methods to output round data to screen and the CSV file"""
     def printRoundHeaders(self):
         print("True Count\tBet\tBank Roll\tDecks")
     def printRoundSummary(self):
@@ -71,7 +111,7 @@ class Game(object):
         pass
 
     """
-    Dynamic user prompts and getting and storing user input
+    Methods to dynamically create user prompts, and dynamically get and store user input
     """
     def getUserPrompt(self, varName):
         """Dynamically creates then outputs the user prompt for the given variable name"""
@@ -81,7 +121,7 @@ class Game(object):
         response = input(prompt)
         if response.upper() == 'Q':
             return self.QUIT_GAME
-        elif response.isnumeric():
+        else:
             setattr(self, '_'+varName, response)
         if self.debug:
             print("{} = {}".format(varName, getattr(self, varName)))
@@ -96,16 +136,26 @@ class Game(object):
                 return self.QUIT_GAME
 
             # ask user for the count, system calculates true count automatically
-            self.storeUserInput('count')
+            if self.storeUserInput('count') == self.QUIT_GAME:
+                return self.QUIT_GAME
 
             # ask user to confirm bet amount
+            if self.storeUserInput('betAmount') == self.QUIT_GAME:
+                return self.QUIT_GAME
 
             # ask user if win (W) or loss (L)
-
+            if self.storeUserInput('winOrLoss') == self.QUIT_GAME:
+                return self.QUIT_GAME
             # if command = win (W)
+            if self.winOrLoss == 'W':
                 # add bet amount to bank roll
+                self.bankRoll += self.betAmount
             # if command == lose (L)
+            elif self.winOrLoss == 'L':
                 # subtract bet amount from bank roll
+                self.bankRoll -= self.betAmount
 
             # @ end of round, print the round summary
-            # restart
+            print("{}\t{}\t${}\t${}\t{}".format(self.trueCount, self.count, self.betAmount, self.bankRoll, self.decks))
+            self.printRoundSummary()
+            self.saveRoundSummary()

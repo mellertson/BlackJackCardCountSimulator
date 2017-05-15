@@ -61,3 +61,9 @@ class Game_TestCase(unittest.TestCase):
         with patch.object(builtins, "input", create=True, return_value=" "):
             actual = game.promptBet()
         self.assertEqual(actual, 2.0, "Expected 2.0 as default return value from Game.promptBet()")
+    def test_storeUserInput_decks(self):
+        # simulate user input = 5
+        with patch.object(builtins, "input", create=True, return_value="4"):
+            self.game.storeUserInput('decks')
+        self.assertEqual(self.game.decks, 4, "Expected 4 as user input for decks")
+
