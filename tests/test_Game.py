@@ -3,6 +3,8 @@ from unittest.mock import patch
 import builtins
 from Game import Game
 
+"""blah"""
+
 class Game_TestCase(unittest.TestCase):
     def test_game_class_exists(self):
         import Game
