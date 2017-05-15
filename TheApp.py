@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from View import View
 
 if __name__ == "__main__":
