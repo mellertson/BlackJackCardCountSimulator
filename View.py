@@ -19,4 +19,8 @@ class View:
             game = Game(cf.gameNumber)
             rCode = game.run()
 
+            # increment the game number in the config file
+            if rCode == Game.QUIT_GAME:
+                cf.gameNumber += 1
+
         return Game.QUIT_GAME

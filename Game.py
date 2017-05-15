@@ -116,7 +116,7 @@ class Game(object):
         return self._winOrLoss.upper()
     @winOrLoss.setter
     def winOrLoss(self, value):
-        self._winOrLoss = str(value.upper())[0]
+        self._winOrLoss = str(value)[0].upper()
         if self._winOrLoss == 'W':
             self.wins += 1
         elif self._winOrLoss == 'L':
@@ -164,7 +164,7 @@ class Game(object):
         response = input(prompt)
         if response.upper() == 'Q':
             return self.QUIT_GAME
-        elif varName == 'winOrLoss' and response not in ['W','L','P']:
+        elif varName == 'winOrLoss' and response not in ['W','L','P','w','l','p']:
             self.storeUserInput(varName)
         else:
             setattr(self, varName, response)
@@ -176,6 +176,7 @@ class Game(object):
         # self.printRoundHeaders()
 
         while True:
+            # FIXME: if user inputs 'qw' it stores the value into the variable, but should ask for user input again.
             # ask user for # of decks or quit command (Q)
             if self.storeUserInput('decks') == self.QUIT_GAME:
                 return self.QUIT_GAME
