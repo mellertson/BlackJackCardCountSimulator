@@ -1,4 +1,4 @@
-import ConfigFileManager as cfm
+import csv
 
 class Game(object):
     NEW_GAME = -1
@@ -11,7 +11,7 @@ class Game(object):
         count: An integer describing the ratio between low cards (2-6) and
             high cards (10-A).
         trueCount: The count divided by the number of decks in play.
-        betAmmount: How much you want to bet. Minimum bet in casinos is usually
+        betAmount: How much you want to bet. Minimum bet in casinos is usually
             $2.00.
         bankRoll: The ammount of money left in the game. Default ammount is
             $500.00.
@@ -34,7 +34,8 @@ class Game(object):
         self.ties = 0
         self._winOrLoss = 'W or L'
         self.gameNumber = gameNumber
-
+        self.totalRounds = self.wins + self.losses + self.ties
+        self.fileTitle = 'game-' + str(gameNumber) + '.csv'
         self.vars = {'decks': ['self.decksPrompt', 'int'],
                      'count': ['self.countPrompt', 'int'],
                      'betAmount': ['self.betAmountPrompt', 'float'],
@@ -42,6 +43,14 @@ class Game(object):
 
         # set to True to enable debug messages
         self.debug = False
+        with open(self.fileTitle, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['True Count','Count','Bet Amount',
+                             'Bank Roll','Decks','Win Percentage',
+                             'Loss Percentage','Tie Percentage'])
+            # Write a blank line... I think
+            writer.writerow(['','','','','','','',''])
+            print('The file has been made!')
 
     """
     Properties to prompt, get and set self.decks
@@ -112,12 +121,34 @@ class Game(object):
     Methods to output round data to screen and the CSV file"""
     def printRoundHeaders(self):
         print("True Count\tBet\tBank Roll\tDecks")
+
+    def getPercentage(self, int):
+        return float(int / (self.wins + self.losses + self.ties))
+
+
     def printRoundSummary(self):
         """Print a summary of the current hands."""
-        print()
+        summary = ('True Count: {} | Count: {} | Bet: ${:,.2f} | Bank Roll: '
+                   '${:,.2f} | Decks Remaining: {} | Wins: {:.2%} | Losses: {:.2%} '
+                   '| Ties: {:.2%}').format(self.trueCount, self.count,
+                                            self.betAmount, self.bankRoll,
+                                            self.decks,
+                                            self.getPercentage(self.wins),
+                                            self.getPercentage(self.losses),
+                                            self.getPercentage(self.ties))
+        title = '{:*^150}'.format('Current Round Summary')
+        print(title)
+        print(summary)
+
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
-        pass
+        with open(self.fileTitle, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([self.trueCount, self.count, self.betAmount,
+                              self.bankRoll, self.decks,
+                              self.getPercentage(self.wins),
+                              self.getPercentage(self.losses),
+                              self.getPercentage(self.ties)])
 
     """
     Methods to dynamically create user prompts, and dynamically get and store user input
@@ -170,22 +201,4 @@ class Game(object):
             print("{}\t{}\t${}\t${}\t{}".format(self.trueCount, self.count, self.betAmount, self.bankRoll, self.decks))
             self.printRoundSummary()
             self.saveRoundSummary()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
