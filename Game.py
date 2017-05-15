@@ -25,11 +25,7 @@ class Game(object):
     """
 
     def __init__(self, gameNumber):
-        """
-        Constructor
-        :param gameNumber:
-        :type gameNumber: int
-        """
+        """Constructor"""
         self.count = 0
         self.trueCount = 0
         self.betAmount = 2.0
@@ -62,11 +58,11 @@ class Game(object):
 
         return self.QUIT_GAME
 
-    def printRoundSum(self):
+    def printRoundSummary(self):
         """Print a summary of the current hands."""
-        pass
+       print() 
 
-    def saveRoundSum(self):
+    def saveRoundSummary(self):
         """Save the hand to a CSV file."""
         pass
 
