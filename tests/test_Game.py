@@ -38,5 +38,3 @@ class Game_TestCase(unittest.TestCase):
         with patch.object(builtins, "input", create=True, return_value=" "):
             actual = game.promptBet()
         self.assertEqual(actual, 2.0, "Expected 2.0 as default return value from Game.promptBet()")
-
-

@@ -52,10 +52,11 @@ class Game(object):
                 floatReceived = False
 
         return self.betAmount
-    def printRoundSummary(self):
+    def printRoundHeaders(self):
         print("True Count\tBet\tBank Roll\tDecks")
     def run(self):
-        self.printRoundSummary()
+        # print headers for true count, count, bet, bank roll, and # of decks
+        self.printRoundHeaders()
 
         return self.QUIT_GAME
 
