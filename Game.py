@@ -84,6 +84,7 @@ class Game(object):
     def count(self, value):
         try:
             self._count = int(float(value))
+            self.trueCount = int((self._count / self.decks) + 0.5)
         except Exception:
             pass
 
