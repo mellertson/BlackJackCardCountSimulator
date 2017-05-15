@@ -41,13 +41,13 @@ class Game(object):
         self.fileTitle = 'bj-' + str(gameNumber) + '.csv'
         
         with open(self.fileTitle, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile, delimiter=' ', quotechar='|',
-                               quoting=csv.QUOTE_MINIMAL)
+            writer = csv.writer(csvfile)
             writer.writerow(['True Count','Count','Bet Amount', 
                              'Bank Roll','Decks','Win Percentage',
                              'Loss Percentage','Tie Percentage'])
             # Write a blank line... I think
             writer.writerow(['','','','','','','',''])
+            print('The file has been made!')
 
     def promptBet(self):
         floatReceived = False
@@ -74,7 +74,8 @@ class Game(object):
         return self.QUIT_GAME
 
     def getPercentage(self, int):
-        return int / (self.wins + self.losses + self.ties)
+        return float(int / (self.wins + self.losses + self.ties))
+
 
     def printRoundSummary(self):
         """Print a summary of the current hands."""
@@ -92,8 +93,13 @@ class Game(object):
 
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
-        
-
+        with open(self.fileTitle, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([self.trueCount, self.count, self.betAmount,
+                              self.bankRoll, self.decks,
+                              self.getPercentage(self.wins),
+                              self.getPercentage(self.losses),
+                              self.getPercentage(self.ties)])
 
 
 
