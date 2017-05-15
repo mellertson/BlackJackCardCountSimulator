@@ -1,4 +1,7 @@
-import csv
+import ConfigFileManager as cfm
+
+class UserPrompts:
+    enterBet = "Enter"
 
 class Game(object):
     NEW_GAME = 1
@@ -36,8 +39,27 @@ class Game(object):
         self.losses = 0
         self.ties = 0
         self.gameNumber = gameNumber
+    def promptBet(self):
+        floatReceived = False
+        prompt = "What is your bet? [Enter for ${}]: $".format(self.betAmount)
+        while not floatReceived:
+            response = input(prompt)
+            if response.strip(' ') == '':
+                return self.betAmount
+            try:
+                response = float(response)
+                return response
+            except ValueError:
+                floatReceived = False
+
+        return self.betAmount
+    def printRoundHeaders(self):
+        print("True Count\tBet\tBank Roll\tDecks")
 
     def run(self):
+        # print headers for true count, count, bet, bank roll, and # of decks
+        self.printRoundHeaders()
+
         return self.QUIT_GAME
 
     def printRoundSum(self):
@@ -47,7 +69,7 @@ class Game(object):
     def saveRoundSum(self):
         """Save the hand to a CSV file."""
         pass
-        
+
 
 
 
