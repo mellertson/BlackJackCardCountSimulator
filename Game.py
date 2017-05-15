@@ -1,18 +1,18 @@
-import ConfigFileManager as cfm
-
 class UserPrompts:
     enterBet = "Enter"
 
 class Game(object):
     NEW_GAME = 1
     QUIT_GAME = 0
-    """Construct a new <code>Game</code> object.
-    
+    """Game object.
+
+    Keeps a record of the neccesary statistics for card counting in blackjack.
+
     Attributes:
         count: An integer describing the ratio between low cards (2-6) and
             high cards (10-A).
         trueCount: The count divided by the number of decks in play.
-        betAmmount: How much you want to bet. Minimum bet in casinos is usually
+        betAmount: How much you want to bet. Minimum bet in casinos is usually
             $2.00.
         bankRoll: The ammount of money left in the game. Default ammount is
             $500.00.
@@ -35,6 +35,8 @@ class Game(object):
         self.losses = 0
         self.ties = 0
         self.gameNumber = gameNumber
+        self.totalRounds = self.wins + self.losses + self.ties
+
     def promptBet(self):
         floatReceived = False
         prompt = "What is your bet? [Enter for ${}]: $".format(self.betAmount)
@@ -49,6 +51,7 @@ class Game(object):
                 floatReceived = False
 
         return self.betAmount
+
     def printRoundHeaders(self):
         print("True Count\tBet\tBank Roll\tDecks")
 
@@ -58,9 +61,22 @@ class Game(object):
 
         return self.QUIT_GAME
 
+    def getPercentage(self, int):
+        return int / (self.wins + self.losses + self.ties)
+
     def printRoundSummary(self):
         """Print a summary of the current hands."""
-        print()
+        summary = ('True Count: {} | Count: {} | Bet: ${:,.2f} | Bank Roll: '
+                   '${:,.2f} | Decks Remaining: {} | Wins: {:.2%} | Losses: {:.2%} '
+                   '| Ties: {:.2%}').format(self.trueCount, self.count,
+                                            self.betAmount, self.bankRoll,
+                                            self.decks,
+                                            self.getPercentage(self.wins),
+                                            self.getPercentage(self.losses),
+                                            self.getPercentage(self.ties))
+        title = '{:*^150}'.format('Current Round Summary')
+        print(title)
+        print(summary)
 
     def saveRoundSummary(self):
         """Save the hand to a CSV file."""
