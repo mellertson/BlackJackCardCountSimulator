@@ -5,7 +5,7 @@ class Game(object):
     QUIT_GAME = 0
     INPUT_RECEIVED = -3
 
-    """Construct a new <code>Game</code> object.
+    """Construct a new game object.
     
     Attributes:
         count: An integer describing the ratio between low cards (2-6) and
