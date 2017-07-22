@@ -3,7 +3,6 @@ from unittest.mock import patch
 import builtins
 from Game import Game
 
-"""blah"""
 
 class Game_TestCase(unittest.TestCase):
     def test_game_class_exists(self):
@@ -37,8 +36,8 @@ class Game_TestCase(unittest.TestCase):
     def test_init_method(self):
         game = Game(5)
         self.assertIsInstance(game, Game, "Expected Game object to be returned.")
-    @unittest.skip("This unit test needs to be re-written because Game.run() was modified.")
     def test_run_method_return_code(self):
+        """This unit test needs to be re-written because Game.run() was modified."""
         game = Game(1)
         rCode = game.run()
         self.assertIn(rCode, self.gameCodes, "Game.run() returned unexpected return code")
